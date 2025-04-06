@@ -1,0 +1,765 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: black;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 10px;
+}
+
+.container {
+  width: 100%;
+  max-width: 450px;
+  background: linear-gradient(to bottom, #b3e0ff, #66ccff);
+  color: #fff;
+  margin: 20px auto;
+  border-radius: 15px;
+  padding: 40px 35px;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.search-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.search-box input {
+  border: 0;
+  outline: 0;
+  background: #ebfffc;
+  color: rgb(31, 31, 138);
+  padding: 10px 40px 10px 25px;
+  height: 60px;
+  border-radius: 30px;
+  width: 100%;
+  font-size: 19px;
+  text-transform: capitalize;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 15px;
+  border: none;
+  background: transparent;
+  color: rgba(31, 31, 138, 0.7);
+  cursor: pointer;
+  font-size: 16px;
+  display: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  line-height: 1;
+}
+
+.clear-btn.visible {
+  display: block;
+}
+
+.search-btn {
+  border: 0;
+  outline: 0;
+  background: #ebfffc;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  background: linear-gradient(to bottom, #b3e0ff, #66ccff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn img {
+  width: 24px;
+}
+
+.error {
+  text-align: left;
+  margin-left: 10px;
+  font-size: 15px;
+  margin-top: 10px;
+  display: none;
+  color: #ff5252;
+}
+
+.weather-container {
+  display: none;
+}
+
+.current-weather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.weather-info {
+  text-align: center;
+}
+
+.weather-icon {
+  width: 170px;
+  margin-top: 30px;
+}
+
+.temp {
+  font-size: 80px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.city {
+  font-size: 55px;
+  font-weight: 500;
+  margin-top: -11px;
+  margin-bottom: 10px;
+}
+
+.weather-desc, .date-time {
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 5px;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+.col {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin: 5px 0;
+}
+
+.col img, .col i {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.col i {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.humidity, .wind, .feels-like {
+  font-size: 19px;
+}
+
+/* High/Low temperature display */
+.temp-range {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 10px;
+  max-width: 250px;
+  margin: 15px auto 0;
+}
+
+.highest-temp, .lowest-temp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.highest-temp .label, .lowest-temp .label {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.highest-temp .value, .lowest-temp .value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.highest-temp .value {
+  color: #ff7b00;
+}
+
+.lowest-temp .value {
+  color: #0097ff;
+}
+
+.forecast-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.hourly-forecast, .daily-forecast {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.hourly-forecast h3, .daily-forecast h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(31, 31, 138);
+}
+
+.hourly-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  position: relative;
+  scroll-snap-type: x mandatory;
+}
+
+.hourly-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.hourly-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+}
+
+.daily-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hour-item, .day-item {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 10px;
+  min-width: 110px;
+  color: rgb(31, 31, 138);
+}
+
+.hour-item {
+  flex-direction: column;
+  text-align: center;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+
+.day-item {
+  justify-content: space-between;
+}
+
+.hour-item img, .day-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin: 5px 0;
+}
+
+.day-item .day-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.day-details .day-temp {
+  display: flex;
+  gap: 10px;
+}
+
+.day-details .max-temp {
+  font-weight: 500;
+}
+
+.day-details .min-temp {
+  opacity: 0.8;
+}
+
+/* Loading state */
+.container.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: rgb(31, 31, 138);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.container.loading {
+  position: relative;
+  min-height: 200px;
+}
+
+.container.loading > * {
+  opacity: 0.5;
+}
+
+/* Responsive design */
+@media (max-width: 767px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    margin: 10px auto;
+    border-radius: 15px;
+    padding: 20px;
+  }
+
+  .search-box {
+    margin-bottom: 15px;
+    flex-wrap: nowrap;
+  }
+  
+  .search-box input {
+    height: 50px;
+    font-size: 16px;
+    padding: 10px 40px 10px 15px;
+  }
+  
+  .search-btn {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+  }
+  
+  .search-btn img {
+    width: 20px;
+  }
+  
+  .details {
+    justify-content: space-around;
+    margin-top: 30px;
+    padding: 0 10px;
+  }
+
+  .col {
+    margin: 5px 0;
+  }
+
+  .temp {
+    font-size: 60px;
+  }
+
+  .city {
+    font-size: 40px;
+  }
+  
+  .weather-icon {
+    width: 140px;
+    margin-top: 20px;
+  }
+  
+  .hourly-forecast, .daily-forecast {
+    padding: 15px;
+  }
+  
+  .hourly-forecast h3, .daily-forecast h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .forecast-container {
+    gap: 20px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 390px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .search-box input {
+    height: 45px;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+  .search-box button {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .search-box button img {
+    width: 18px;
+  }
+  
+  .temp {
+    font-size: 50px;
+  }
+  
+  .city {
+    font-size: 32px;
+  }
+  
+  .weather-icon {
+    width: 120px;
+  }
+  
+  .col img, .col i {
+    width: 35px;
+  }
+  
+  .humidity, .wind, .feels-like {
+    font-size: 16px;
+  }
+  
+  .hour-item, .day-item {
+    min-width: 100px;
+    padding: 8px;
+  }
+  
+  .hour-item img, .day-item img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* Day forecast with dropdown */
+.day-item-container {
+  margin-bottom: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.day-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 10px;
+  color: rgb(31, 31, 138);
+  cursor: pointer;
+}
+
+.day-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 80px;
+}
+
+.day-name {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.day-date {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.day-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.dropdown-btn {
+  background: none;
+  border: none;
+  color: rgb(31, 31, 138);
+  cursor: pointer;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.dropdown-btn:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.hourly-dropdown {
+  display: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+  padding: 0;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.2);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.hourly-dropdown.open {
+  display: block;
+  max-height: 250px;
+  padding: 12px;
+  position: relative;
+}
+
+.hourly-dropdown-content {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 10px;
+  padding-bottom: 10px;
+}
+
+/* Make scrollbar less visible */
+.hourly-dropdown-content::-webkit-scrollbar {
+  height: 4px;
+}
+
+.hourly-dropdown-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.dropdown-hour-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 8px;
+  border-radius: 10px;
+  min-width: 80px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  color: rgb(31, 31, 138);
+}
+
+.dropdown-hour-item img {
+  width: 40px;
+  height: 40px;
+  margin: 5px 0;
+}
+
+.dropdown-hour-item.approximate {
+  position: relative;
+  opacity: 0.8;
+}
+
+.dropdown-hour-item.approximate::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 193, 7, 0.8);
+}
+
+/* Swipe controls for hourly dropdowns */
+.hourly-dropdown .swipe-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: background 0.2s;
+}
+
+.hourly-dropdown .swipe-control:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hourly-dropdown .swipe-prev {
+  left: 5px;
+}
+
+.hourly-dropdown .swipe-next {
+  right: 5px;
+}
+
+/* Status messages */
+.loading-text, .error-text, .no-data {
+  padding: 15px;
+  text-align: center;
+  color: rgb(31, 31, 138);
+  font-weight: 500;
+}
+
+.error-text {
+  color: #ff5252;
+}
+
+.no-data {
+  font-size: 14px;
+  opacity: 0.8;
+  padding: 10px;
+}
+
+/* Swipeable hourly forecast */
+.hourly-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  position: relative;
+  scroll-snap-type: x mandatory;
+}
+
+.hour-item {
+  flex-direction: column;
+  text-align: center;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+
+/* Swipe indicator */
+.swipe-indicator {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.swipe-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.swipe-dot.active {
+  background-color: rgb(31, 31, 138);
+}
+
+/* Swipe arrows */
+.swipe-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: rgb(31, 31, 138);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  z-index: 10;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.swipe-control:hover {
+  opacity: 1;
+}
+
+.swipe-prev {
+  left: 5px;
+}
+
+.swipe-next {
+  right: 5px;
+}
+
+/* Hourly dropdown swipe improvements */
+.hourly-dropdown-content {
+  padding: 10px;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  gap: 10px;
+}
+
+.dropdown-hour-item {
+  flex: 0 0 auto;
+  min-width: 100px;
+  scroll-snap-align: start;
+}
+
+/* Responsive styles for the dropdown content */
+@media (max-width: 767px) {
+  .hourly-dropdown-content {
+    gap: 8px;
+  }
+  
+  .dropdown-hour-item {
+    padding: 6px;
+    font-size: 14px;
+    min-width: 70px;
+  }
+  
+  .dropdown-hour-item img {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .hourly-dropdown .swipe-control {
+    width: 25px;
+    height: 25px;
+  }
+}
